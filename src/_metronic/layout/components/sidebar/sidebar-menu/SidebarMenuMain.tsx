@@ -18,11 +18,11 @@ const SidebarMenuMain = () => {
         <SidebarMenuItem to='/manage/owner/post' title='Quản lý bài đăng' hasBullet={true} />
         <SidebarMenuItem to='/manage/owner/createdpost' title='Tạo bài đăng' hasBullet={true} />
       </SidebarMenuItemWithSub>
-      {currentUser?.fullName === 'Admin' ? (
+      {/* {currentUser?.fullName === 'Admin' ? (
         <SidebarMenuItem to='/manage/memebership' icon='/media/icons/duotune/general/gen049.svg' title={'Quản lý gói tin'} />
       ) : (
         <SidebarMenuItem to='/manage/memebership/payment' icon='/media/icons/duotune/general/gen049.svg' title={'Gói tin'} />
-      )}
+      )} */}
       {currentUser?.fullName === 'Admin' ? (
         <SidebarMenuItem to='/manage/user' icon='/media/icons/duotune/communication/com006.svg' title={'Quản lý người dùng'} />
       ) : (

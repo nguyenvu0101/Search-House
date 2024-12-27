@@ -57,7 +57,7 @@ function ListHousePage() {
             districtId: districtId,
             bedroomCount: bedroomCount,
             bathroomCount: bathroomCount,
-            status: 'Chưa thuê',
+            status: 'Chưa thuê##Đang giao dịch',
             orderBy: [`${orderBy}`],
           })
         );
@@ -158,14 +158,27 @@ function ListHousePage() {
                         </Carousel>
                       }
                     >
-                      <Link to={`/house/detail/${item.id}`}>
+                      <a
+                        className='btn-link'
+                        onClick={(e) => {
+                          if (item.status === 'Đang giao dịch') {
+                            e.preventDefault();
+                          } else {
+                            navigate(`/house/detail/${item.id}`);
+                          }
+                        }}
+                      >
                         <div className='d-flex align-items-center justify-content-between'>
                           <span className='title-container fs-9 text-muted flex-grow-1 mt-1'>
                             {item.districtName},{item.provinceName}
                           </span>
-                          <span className='color-text fs-7 fw-bold'>
-                            {formatNumber(item.price)} <i className='fs-10'>VNĐ</i>
-                          </span>
+                          {item.status !== 'Đang giao dịch' ? (
+                            <span className='color-text fs-6 fw-bold'>
+                              {formatNumber(item.price)} <i className='fs-8 '>đ</i>
+                            </span>
+                          ) : (
+                            <span className='color-text fs-9'>Đang giao dịch</span>
+                          )}
                         </div>
                         <div className='d-flex align-items-center justify-content-between'>
                           <span className='title-container fs-8 text-dark flex-grow-1'>{item.address}</span>
@@ -181,7 +194,7 @@ function ListHousePage() {
                             <i className='fa-solid fa-kaaba'></i> {item.area} m<sup>2</sup>
                           </span>
                         </div>
-                      </Link>
+                      </a>
                     </Card>
                   </List.Item>
                 )}

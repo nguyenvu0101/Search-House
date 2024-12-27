@@ -25,7 +25,7 @@ function ListHouse() {
             },
             pageNumber: 1,
             pageSize: 1000,
-
+            status: 'Chưa thuê ## Đang giao dịch',
             orderBy: [`createdOn DESC`],
           })
         );
@@ -101,17 +101,30 @@ function ListHouse() {
                         </Carousel>
                       }
                     >
-                      <Link to={`/house/detail/${item.id}`}>
+                      <a
+                        className='btn-link'
+                        onClick={(e) => {
+                          if (item.status === 'Đang giao dịch') {
+                            e.preventDefault();
+                          } else {
+                            navigate(`/house/detail/${item.id}`);
+                          }
+                        }}
+                      >
                         <div className='d-flex align-items-center justify-content-between'>
                           <span className='title-container fs-7 text-muted flex-grow-1 mt-1'>
                             <i className='fa-solid fa-location-dot fs-9 me-1'></i>
                             {item.districtName},{item.provinceName}
                           </span>
-                          <span className='color-text fs-6 fw-bold'>
-                            {formatNumber(item.price)} <i className='fs-8 '>đ</i>
-                          </span>
+                          {item.status !== 'Đang giao dịch' ? (
+                            <span className='color-text fs-6 fw-bold'>
+                              {formatNumber(item.price)} <i className='fs-8 '>đ</i>
+                            </span>
+                          ) : (
+                            <span className='color-text fs-9'>Đang giao dịch</span>
+                          )}
                         </div>
-                      </Link>
+                      </a>
                     </Card>
                   </List.Item>
                 )}

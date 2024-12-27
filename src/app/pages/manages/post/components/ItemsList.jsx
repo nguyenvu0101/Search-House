@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {Popconfirm, Typography, Tag} from 'antd';
 import {toast} from 'react-toastify';
 import * as actionsModal from 'src/setup/redux/modal/Actions';
-import {requestPOST, requestDELETE} from 'src/utils/baseAPI';
+import {requestPOST, requestDELETE, requestPUT} from 'src/utils/baseAPI';
 
 import TableList from 'src/app/components/TableList';
 import ModalItem from './ChiTietModal';
@@ -80,6 +80,30 @@ const UsersList = (props) => {
       case 'hop-dong':
         dispatch(actionsModal.setDataModal(item));
         dispatch(actionsModal.setModalVisible(true));
+        break;
+      case 'dang-giao-dich':
+        var response = await requestPUT(`api/v1/motels/${item.id}`, {
+          ...item,
+          status: 'Đang giao dịch',
+        });
+        if (response) {
+          toast.success('Thao tác thành công!');
+          dispatch(actionsModal.setRandom());
+        } else {
+          toast.error('Thất bại, vui lòng thử lại!');
+        }
+        break;
+      case 'huy-giao-dich':
+        var response11 = await requestPUT(`api/v1/motels/${item.id}`, {
+          ...item,
+          status: 'Chưa thuê',
+        });
+        if (response11) {
+          toast.success('Thao tác thành công!');
+          dispatch(actionsModal.setRandom());
+        } else {
+          toast.error('Thất bại, vui lòng thử lại!');
+        }
         break;
       case 'delete':
         var res = await requestDELETE(`api/v1/motels/${item.id}`);
@@ -191,7 +215,30 @@ const UsersList = (props) => {
             >
               <i className='fa-solid fa-file-contract'></i>
             </a>
-
+            {record.status === 'Chưa thuê' && (
+              <a
+                className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 mb-1'
+                data-toggle='m-tooltip'
+                title='Đang giao dịch'
+                onClick={() => {
+                  handleButton(`dang-giao-dich`, record);
+                }}
+              >
+                <i className='fa-solid fa-bars-progress'></i>
+              </a>
+            )}
+            {record.status === 'Đang giao dịch' && (
+              <a
+                className='btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1 mb-1'
+                data-toggle='m-tooltip'
+                title='Hủy giao dịch'
+                onClick={() => {
+                  handleButton(`huy-giao-dich`, record);
+                }}
+              >
+                <i className='fa-solid fa-xmark'></i>
+              </a>
+            )}
             <Popconfirm
               title='Xoá?'
               onConfirm={() => {
